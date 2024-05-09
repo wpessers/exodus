@@ -1,9 +1,12 @@
 [package]
 name = "exodus"
 version = "0.1.0"
+authors = [ "Warre Pessers" ]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "CLI tool for migrating AWS API Keys between accounts / regions"
+readme = "README.md"
+repository = "https://github.com/wpessers/exodus"
+license = "MIT"
 
 [dependencies]
 anyhow = "1.0"
