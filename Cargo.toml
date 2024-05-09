@@ -1,0 +1,15 @@
+[package]
+name = "exodus"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0"
+aws-config = { version = "1.1.7", features = ["behavior-version-latest"] }
+aws-sdk-apigateway = "1.22.0"
+clap = { version = "4.5", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+rpassword = "7.3"
+regex = "1.10.4"
