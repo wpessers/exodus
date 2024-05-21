@@ -3,7 +3,7 @@ use clap::Parser;
 use exodus::{delete_api_keys, get_api_keys, init_client, put_api_keys, Cli};
 use std::io::{self, Write};
 
-#[::tokio::main]
+#[tokio::main]
 async fn main() -> Result<(), Error> {
     let args = Cli::parse();
 
@@ -19,7 +19,7 @@ async fn main() -> Result<(), Error> {
         args.pattern,
         args.replacement,
     )
-    .await;
+    .await?;
 
     print!("\nDelete keys from the source account (y/n)? ");
     let _ = io::stdout().flush();
