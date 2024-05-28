@@ -1,6 +1,6 @@
 [package]
 name = "exodus"
-version = "0.2.0"
+version = "0.3.0"
 authors = [ "Warre Pessers" ]
 edition = "2021"
 description = "CLI tool for migrating AWS API Keys between accounts / regions"
