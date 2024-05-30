@@ -8,6 +8,41 @@ use aws_sdk_apigateway::{operation::create_api_key::CreateApiKeyOutput, types::U
 use console::style;
 use regex::Regex;
 
+pub const AWS_REGIONS: &'static [&'static str] = &[
+    "us-east-1",
+    "us-east-2",
+    "us-west-1",
+    "us-west-2",
+    "af-south-1",
+    "ap-east-1",
+    "ap-south-2",
+    "ap-southeast-3",
+    "ap-southeast-4",
+    "ap-south-1",
+    "ap-northeast-3",
+    "ap-northeast-2",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "ca-central-1",
+    "ca-west-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-south-1",
+    "eu-west-3",
+    "eu-south-2",
+    "eu-north-1",
+    "eu-central-2",
+    "il-central-1",
+    "me-south-1",
+    "me-central-1",
+    "sa-east-1",
+    "us-gov-east-1",
+    "us-gov-west-1",
+];
+
+
 pub struct AwsCredentials {
     access_key_id: String,
     secret_access_key: String,
@@ -175,7 +210,6 @@ pub async fn init_client(credentials: AwsCredentials) -> Client {
     );
 
     let config = aws_config::defaults(BehaviorVersion::latest())
-        .endpoint_url("http://localhost:4566/")
         .region(Region::new(credentials.region))
         .credentials_provider(credentials_provider)
         .load()

@@ -4,44 +4,10 @@ use console::{style, Style};
 use dialoguer::{theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password, Select};
 use exodus::{
     delete_api_keys, get_api_keys, get_usage_plan_api_keys, get_usage_plans, init_client,
-    put_api_keys, put_usage_plan_key, AwsCredentials,
+    put_api_keys, put_usage_plan_key, AwsCredentials, AWS_REGIONS,
 };
 
-const AWS_REGIONS: &'static [&'static str] = &[
-    "us-east-1",
-    "us-east-2",
-    "us-west-1",
-    "us-west-2",
-    "af-south-1",
-    "ap-east-1",
-    "ap-south-2",
-    "ap-southeast-3",
-    "ap-southeast-4",
-    "ap-south-1",
-    "ap-northeast-3",
-    "ap-northeast-2",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ap-northeast-1",
-    "ca-central-1",
-    "ca-west-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-south-1",
-    "eu-west-3",
-    "eu-south-2",
-    "eu-north-1",
-    "eu-central-2",
-    "il-central-1",
-    "me-south-1",
-    "me-central-1",
-    "sa-east-1",
-    "us-gov-east-1",
-    "us-gov-west-1",
-];
-
-fn get_aws_client_config(theme: &ColorfulTheme) -> AwsCredentials {
+fn get_aws_client_config(theme: &ColorfulTheme, regions: &'static [&'static str]) -> AwsCredentials {
     let aws_access_key_id: String = Input::with_theme(theme)
         .with_prompt("Access Key Id:")
         .interact()
@@ -61,10 +27,10 @@ fn get_aws_client_config(theme: &ColorfulTheme) -> AwsCredentials {
 
     let aws_region: String = FuzzySelect::with_theme(theme)
         .with_prompt("Pick your AWS Region")
-        .items(&AWS_REGIONS)
+        .items(regions)
         .default(0)
         .interact()
-        .map(|index| AWS_REGIONS[index].to_string())
+        .map(|index| regions[index].to_string())
         .unwrap();
 
     AwsCredentials::new(
@@ -97,7 +63,7 @@ async fn main() -> Result<(), Error> {
             .blue()
             .bright()
     );
-    let aws_credentials = get_aws_client_config(&theme);
+    let aws_credentials = get_aws_client_config(&theme, &AWS_REGIONS);
     let source_client = init_client(aws_credentials).await;
 
     let from_usage_plan = Confirm::with_theme(&theme)
@@ -175,7 +141,7 @@ async fn main() -> Result<(), Error> {
             .blue()
             .bright()
     );
-    let aws_credentials = get_aws_client_config(&theme);
+    let aws_credentials = get_aws_client_config(&theme, &AWS_REGIONS);
     let destination_client = init_client(aws_credentials).await;
 
     let to_usage_plan = Confirm::with_theme(&theme)
